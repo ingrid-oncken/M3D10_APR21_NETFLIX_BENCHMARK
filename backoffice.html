@@ -178,7 +178,23 @@ Thriller -->
             },
           })
         }
-      }
+        if(response.ok) {
+          const data = await response.json()
+          alert("movie saved")
+        } else {
+          console.log("else")
+        }
+        if(response.status === 400){
+          throw new Error("Bad request 400")
+        } else if (response.status === 401){
+          throw new Error('Anautorized 401')
+        } else if (response.status === 404){
+          throw new Error('Not found 404')
+        }
+      
+    } catch (error) {
+      
+    }
     </script>
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
