@@ -7,8 +7,6 @@ Mystery
 Romance
 Thriller -->
 
-
-
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -24,7 +22,7 @@ Thriller -->
       crossorigin="anonymous"
     />
     <link href="css/styles.css" rel="stylesheet" />
-    <title>Backend Netflix</title>
+    <title>Backoffice Netflix</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -63,13 +61,23 @@ Thriller -->
             <img src="./assets/avatar.png" width="200px" />
           </div> -->
           <div class="col-md-9 col-xs-12">
-            <input value="MOVIE NAME" type="text" class="netflix-input mb-2" />
+            <label for="movie"><h3>Movie</h3></label>
+            <input
+              id="movieName"
+              placeholder="MOVIE NAME"
+              type="text"
+              class="netflix-input mb-2"
+              required
+            />
 
             <div class="d-flex flex-column mb-4 mt-4">
+              <label for="category"><h3>Category</h3></label>
               <input
-                value="CATEGORY"
+                id="categoryName"
+                placeholder="CATEGORY"
                 type="text"
                 class="netflix-input mb-2"
+                required
               />
               <!-- <h4 class="text-muted">Language</h4>
               <button class="btn btn-outline-light mt-2 dropdown-toggle w-25">
@@ -119,20 +127,59 @@ Thriller -->
           </div>
         </div>
         <hr />
-        <div class="row">
-          <div class="col-md-2">
-            <button class="btn btn-light w-100">SAVE</button>
+        <div onsubmit="handleSubmit(event)" class="row">
+          <div class="col-md-3">
+            <button id="btnSave" type="button" class="btn btn-light w-100">
+              SAVE
+            </button>
           </div>
-          <div class="col-md-5">
-            <button class="btn btn-outline-secondary w-100">EDIT</button>
+          <div class="col-md-4">
+            <button
+              id="btnEdit"
+              type="button"
+              class="btn btn-outline-secondary w-50"
+            >
+              EDIT
+            </button>
           </div>
-          <div class="col-md-5">
-            <button class="btn btn-outline-secondary w-100">DELETE</button>
+          <div class="col-md-4">
+            <button
+              id="btnDelete"
+              type="button"
+              class="btn btn-outline-secondary w-40"
+            >
+              DELETE
+            </button>
           </div>
         </div>
       </div>
     </div>
+    <script>
+      const handleSubmit = async (event) => {
+        const url =
+          "https://strive-school-testing-apis.herokuapp.com/api/movies/"
+        event.preventDefault() //prevents the default behavior of Forms = refresh before saving
 
+        // console.log(event)
+
+        let movieName = document.getElementById("movieName").value
+
+        const myEvent = {
+          movieName,
+          Category: document.getElementById("movieCategory").value,
+        }
+
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            body: JSON.stringify(myEvent),
+            headers:{
+              "Content-Type": "application/json",
+            },
+          })
+        }
+      }
+    </script>
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
