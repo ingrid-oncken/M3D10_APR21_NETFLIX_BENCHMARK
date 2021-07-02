@@ -24,7 +24,7 @@
 window.onload = async function () {
   const url = "https://striveschool-api.herokuapp.com/api/movies/"
   // console.log(row4movies)
-  const row4movies = document.getElementsByClassName("movie-row > row") //don't forget this wull return array!!!
+  const row4movies = document.querySelectorAll("movie-row > row") //don't forget this wull return array!!!
 
   //The ideia here would be: cicle in the rows deleting the movie cards
   row4movies.forEach((element) => {
