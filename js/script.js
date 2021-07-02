@@ -21,50 +21,65 @@
 
 // fetch(url, {})
 
-window.onload = async function () {
-  const url = "https://striveschool-api.herokuapp.com/api/movies/"
-  // console.log(row4movies)
+window.onload = async () => {
+  const categoryEndPoint = "https://striveschool-api.herokuapp.com/api/movies/"
+
   const row4movies = document.querySelectorAll("movie-row > row") //don't forget this wull return array!!!
 
-  //The ideia here would be: cicle in the rows deleting the movie cards
+  //deleting the movie cards
   row4movies.forEach((element) => {
     row4movies.innerHTML = ""
   })
 
   try {
-    const response = await fetch(url)
-    const events = await response.json()
-    // console.log(events)
+    //Fetch the categories
+    const response = await fetch(categoryEndPoint, {
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGIwY2QyN2RjMTQ1ODAwMTVlNGFkZGUiLCJpYXQiOjE2MjUyMzMxNTcsImV4cCI6MTYyNjQ0Mjc1N30.7JSv8NoAH_q4Z2AIIRUoMgDrM1BcWFg7dW4HmA4rTR8",
+      },
+    })
+    if (response.ok) {
+      const movieCategories = await response.json()
+      console.log(movieCategories)
 
-    // if (events.lenght > 0) {
-    events.forEach((element) => {
-      //the idea here would be: populate the empty spaces with movie cards
+      //for each category I need to implement a fetch, so Fetch.all
+      //then map the categories to make an arrays of categories with movies array inside
+      const movies = await Promise.all(
+        movieCategories.map((eachCategory) => {
+          const response = await fetch("")
+          return
+        })
+      )
+    }
+
+    movieCategories.forEach((element) => {
+      //populate the empty spaces with movie cards
       const movieCard = `
                           <div class="col-md-2">
-                            <img class="movie-cover" src="${dinamicImage}" />
+                            <img class="movie-cover" src="${element.sth}" />
                           </div>
                           <div class="col-md-2">
-                            <img class="movie-cover" src="${dinamicImage}" />
+                            <img class="movie-cover" src="${element.sth}" />
                           </div>
                           <div class="col-md-2">
-                            <img class="movie-cover" src="${dinamicImage}" />
+                            <img class="movie-cover" src="${element.sth}" />
                           </div>
                           <div class="col-md-2">
-                            <img class="movie-cover" src="${dinamicImage}" />
+                            <img class="movie-cover" src="${element.sth}" />
                           </div>
                           <div class="col-md-2">
-                            <img class="movie-cover" src="${dinamicImage}g" />
+                            <img class="movie-cover" src="${element.sth}" />
                           </div>
                           <div class="col-md-2">
-                            <img class="movie-cover" src="${dinamicImage}g" />
+                            <img class="movie-cover" src="${element.sth}" />
                           </div> 
                           `
-      row4movies.forEach((element) => {
-        row4movies.apendChild(movieCard)
-      })
+      // row4movies.forEach((element) => {
+      //   row4movies.apendChild(movieCard)
+      // })
     })
-    // }
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    console.log(err)
   }
 }

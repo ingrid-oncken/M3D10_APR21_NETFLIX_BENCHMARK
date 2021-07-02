@@ -73,8 +73,22 @@ Thriller -->
             <div class="d-flex flex-column mb-4 mt-4">
               <label for="category"><h3>Category</h3></label>
               <input
-                id="categoryName"
+                id="movieCategory"
                 placeholder="CATEGORY"
+                type="text"
+                class="netflix-input mb-2"
+                required
+              />
+              <label for="category"><h3>Description</h3></label>
+              <input
+                id="movieDescription"
+                placeholder="DESCRIPTION"
+                type="text"
+                class="netflix-input mb-2"
+              /><label for="category"><h3>Image</h3></label>
+              <input
+                id="imageURL"
+                placeholder="IMAGE"
                 type="text"
                 class="netflix-input mb-2"
                 required
@@ -127,7 +141,7 @@ Thriller -->
           </div>
         </div>
         <hr />
-        <div onsubmit="handleSubmit(event)" class="row">
+        <div onclick="handleSubmit()" class="row">
           <div class="col-md-3">
             <button id="btnSave" type="button" class="btn btn-light w-100">
               SAVE
@@ -155,46 +169,59 @@ Thriller -->
       </div>
     </div>
     <script>
-      const handleSubmit = async (event) => {
+      //   {
+      //     "_id": "5d3598a3a38caa57a0272d33", //SERVER GENERATED
+      //     "name": "Random drama movie",
+      //     "description": "A description of the movie",
+      //     "category": "drama",
+      //     "imageUrl": "https://bit.ly/3bVHHZ4",
+      //     "userId": "admin",  //SERVER GENERATED
+      //     "createdAt": "2019-07-22T11:06:11.784Z",  //SERVER GENERATED
+      //     "updatedAt": "2019-07-22T11:06:11.784Z",  //SERVER GENERATED
+      //     "__v": 0  //SERVER GENERATED
+      // }
+
+      const handleSubmit = async () => {
         const url =
           "https://strive-school-testing-apis.herokuapp.com/api/movies/"
-        event.preventDefault() //prevents the default behavior of Forms = refresh before saving
+        event.preventDefault()
 
-        // console.log(event)
-
-        let movieName = document.getElementById("movieName").value
-
-        const myEvent = {
-          movieName,
-          Category: document.getElementById("movieCategory").value,
+        const newMovieObject = {
+          name: document.getElementById("movieName").value,
+          description: document.getElementById("movieDescription").value,
+          category: document.getElementById("movieCategory").value,
+          imageUrl: document.getElementById("imageURL").value,
         }
 
         try {
           const response = await fetch(url, {
             method: "POST",
-            body: JSON.stringify(myEvent),
-            headers:{
+            headers: {
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGIwY2QyN2RjMTQ1ODAwMTVlNGFkZGUiLCJpYXQiOjE2MjUyMzMxNTcsImV4cCI6MTYyNjQ0Mjc1N30.7JSv8NoAH_q4Z2AIIRUoMgDrM1BcWFg7dW4HmA4rTR8",
               "Content-Type": "application/json",
             },
+            body: JSON.stringify(newMovieObject),
           })
+          const movie = await response.json()
+          console.log(movie)
+        } catch (error) {
+          // if(response.ok) {
+          //   const data = await response.json()
+          //   alert("movie saved")
+          // } else {
+          //   console.log("else")
+          // }
+          // if(response.status === 400){
+          //   throw new Error("Bad request 400")
+          // } else if (response.status === 401){
+          //   throw new Error('Anautorized 401')
+          // } else if (response.status === 404){
+          //   throw new Error('Not found 404')
+          // }
+          console.log(error)
         }
-        if(response.ok) {
-          const data = await response.json()
-          alert("movie saved")
-        } else {
-          console.log("else")
-        }
-        if(response.status === 400){
-          throw new Error("Bad request 400")
-        } else if (response.status === 401){
-          throw new Error('Anautorized 401')
-        } else if (response.status === 404){
-          throw new Error('Not found 404')
-        }
-      
-    } catch (error) {
-      console.log(error);
-    }
+      }
     </script>
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
